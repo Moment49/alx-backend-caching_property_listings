@@ -13,6 +13,14 @@ from rest_framework.response import Response
 from .serializers import PropertySerializer
 from .utils import get_all_properties
 from django.http import JsonResponse
+from .utils import get_redis_cache_metrics
+
+
+@api_view(["GET"])
+def cache_metrics(request):
+    """Return Redis cache hit/miss metrics."""
+    metrics = get_redis_cache_metrics()
+    return JsonResponse(metrics)
 
 @api_view(['GET'])
 @cache_page(60 * 15)  # cache for 15 minutes in Redis
